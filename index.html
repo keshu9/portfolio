@@ -1,0 +1,884 @@
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio foto i wideo</title>
+
+<style>
+:root {
+  --bg: #0d0e11;
+  --card: #27282d;
+  --light: #bcbac6;
+  --text: #f6f5f8;
+  --muted: #b6b4c0;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  color: var(--text);
+  background: radial-gradient(
+    ellipse at top, #22232a, var(--bg) 65%
+  );
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+a { text-decoration: none; color: inherit; }
+button { font: inherit; cursor: pointer; }
+
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  flex-wrap: wrap;
+  padding: 22px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+nav a:hover { color: white; }
+
+.hero {
+  max-width: 550px;
+  margin: 45px auto 95px;
+  background: linear-gradient(#2c2d32, #1d1e23);
+  border-radius: 26px;
+  overflow: hidden;
+  text-align: center;
+}
+
+.hero-content { padding: 55px 25px 45px; }
+
+.logo {
+  display: grid;
+  place-items: center;
+  width: 105px;
+  height: 105px;
+  margin: auto auto 26px;
+  background: white;
+  color: black;
+  border-radius: 50%;
+  font-size: 37px;
+  font-weight: bold;
+  letter-spacing: -5px;
+  border: 5px double #ddd;
+}
+
+h1 {
+  font-size: clamp(25px, 5vw, 34px);
+  margin: 0 0 14px;
+  letter-spacing: -1px;
+}
+
+.hero p {
+  max-width: 390px;
+  margin: 0 auto;
+  line-height: 1.65;
+  font-size: 15px;
+  color: #e3e2e8;
+}
+
+.tags {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 25px 0;
+}
+
+.tags span {
+  padding: 9px 12px;
+  border: 1px solid #ffffff24;
+  background: #ffffff0b;
+  border-radius: 25px;
+  font-size: 12px;
+}
+
+.btn {
+  display: inline-block;
+  background: #e7e5ed;
+  color: #17171c;
+  padding: 15px 23px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: bold;
+  border: 0;
+  margin: 5px;
+  transition: transform .2s;
+}
+
+.btn:hover { transform: translateY(-3px); }
+
+.btn.secondary {
+  background: #414149;
+  color: white;
+}
+
+.socials {
+  background: var(--light);
+  color: #15151a;
+  padding: 25px 12px;
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+
+.socials a {
+  background: #a7a5b0;
+  border-radius: 50%;
+  min-width: 43px;
+  height: 43px;
+  display: grid;
+  place-items: center;
+  font-weight: bold;
+  font-size: 17px;
+}
+
+section {
+  max-width: 1050px;
+  margin: 0 auto 90px;
+  padding: 0 23px;
+  scroll-margin-top: 25px;
+}
+
+.eyebrow {
+  color: #bcb5d1;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+h2 {
+  font-size: clamp(29px, 5vw, 45px);
+  letter-spacing: -1px;
+  margin: 12px 0;
+}
+
+.section-desc {
+  color: var(--muted);
+  max-width: 600px;
+  font-size: 15px;
+  line-height: 1.7;
+  margin-bottom: 30px;
+}
+
+/* GALERIA FOTOGRAFII */
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 13px;
+}
+
+.photo {
+  border: 1px solid #ffffff15;
+  background: #25262e;
+  color: white;
+  padding: 0;
+  border-radius: 15px;
+  text-align: left;
+  overflow: hidden;
+  transition: transform .2s;
+}
+
+.photo:hover, .reel:hover {
+  transform: translateY(-5px);
+}
+
+.photo-visual {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  display: grid;
+  place-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.photo-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-visual::before {
+  content: "";
+  position: absolute;
+  inset: 15%;
+  border: 1px solid #ffffff35;
+  transform: rotate(-12deg);
+  pointer-events: none;
+}
+
+.photo-visual.has-image::before { display: none; }
+
+.moto {
+  background: linear-gradient(135deg,
+    #414d5f, #151b22 45%, #b65931);
+}
+
+.sport {
+  background: linear-gradient(135deg,
+    #173a35, #0b1b23 55%, #588978);
+}
+
+.portret {
+  background: linear-gradient(135deg,
+    #a18475, #383038 55%, #16141b);
+}
+
+.placeholder-label {
+  color: #ffffff85;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.photo-info { padding: 16px; }
+
+.photo-info strong {
+  display: block;
+  font-size: 14px;
+}
+
+.photo-info small {
+  color: var(--muted);
+  display: block;
+  margin-top: 7px;
+}
+
+/* SEKCJA LED */
+
+.led-section {
+  border-top: 1px solid #ffffff19;
+  padding-top: 70px;
+}
+
+.led-intro {
+  padding: 28px;
+  border-radius: 19px;
+  background: linear-gradient(110deg,#292a32,#191b25);
+  border: 1px solid #ffffff16;
+  margin-bottom: 25px;
+}
+
+.led-intro p {
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 0;
+}
+
+.reels {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 15px;
+}
+
+.reel {
+  padding: 0;
+  border: 1px solid #ffffff20;
+  border-radius: 16px;
+  background: #25262c;
+  color: white;
+  overflow: hidden;
+  text-align: left;
+  transition: transform .2s;
+}
+
+.reel-visual {
+  aspect-ratio: 9 / 16;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: radial-gradient(
+    ellipse at 50% 65%,
+    #6269b3 0%, #272b56 40%, #10121d 85%
+  );
+}
+
+.reel:nth-child(2) .reel-visual {
+  background: radial-gradient(
+    ellipse at 50% 60%,
+    #ac7937 0%, #4b3440 42%, #14121a 90%
+  );
+}
+
+.reel:nth-child(3) .reel-visual {
+  background: radial-gradient(
+    ellipse at 50% 60%,
+    #874fc0 0%, #342c68 42%, #101220 90%
+  );
+}
+
+.reel-visual::before {
+  content: "";
+  width: 35%;
+  height: 140%;
+  position: absolute;
+  background: #ffffff3c;
+  transform: rotate(28deg);
+  filter: blur(25px);
+}
+
+.play {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  background: #f0edf4;
+  color: #17171e;
+  display: grid;
+  place-items: center;
+  font-size: 25px;
+  position: relative;
+  z-index: 1;
+}
+
+.reel-info { padding: 18px; }
+.reel-info strong { display: block; font-size: 15px; }
+.reel-info small {
+  display: block;
+  color: var(--muted);
+  margin-top: 7px;
+  line-height: 1.5;
+}
+
+.contact {
+  max-width: 700px;
+  text-align: center;
+  background: #25262c;
+  border-radius: 22px;
+  padding: 55px 25px;
+}
+
+.contact p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+footer {
+  padding: 30px;
+  text-align: center;
+  color: #777781;
+  font-size: 12px;
+}
+
+/* OKNO PODGLĄDU */
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: #000d;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.modal.open { display: flex; }
+
+.modal-box {
+  width: min(95vw, 650px);
+  background: #27282e;
+  border: 1px solid #ffffff26;
+  border-radius: 18px;
+  padding: 20px;
+  max-height: 90vh;
+  overflow: auto;
+}
+
+.modal-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.modal-top button {
+  background: #44454c;
+  color: white;
+  border: 0;
+  border-radius: 50%;
+  width: 33px;
+  height: 33px;
+}
+
+.modal-box iframe {
+  display: block;
+  width: min(100%, 350px);
+  aspect-ratio: 9 / 16;
+  margin: auto;
+  border: 0;
+  border-radius: 10px;
+}
+
+.modal-box img {
+  width: 100%;
+  max-height: 68vh;
+  object-fit: contain;
+}
+
+.modal-box p { color: var(--muted); }
+
+@media(max-width:700px) {
+  .hero { margin: 20px 15px 70px; }
+  .hero-content { padding: 42px 18px; }
+  .gallery { grid-template-columns: repeat(2,1fr); }
+  .reels { gap: 9px; }
+  .reel-info { padding: 11px; }
+  .reel-info strong { font-size: 12px; }
+  .reel-info small { font-size: 10px; }
+  .play { width: 45px; height: 45px; font-size: 19px; }
+}
+
+@media(max-width:420px) {
+  .gallery { gap: 9px; }
+  .photo-info { padding: 12px; }
+  .reels { grid-template-columns: repeat(2,1fr); }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+  <a href="#start">Start</a>
+  <a href="#foto">Fotografia</a>
+  <a href="#led">Wideo / LED</a>
+  <a href="#kontakt">Kontakt</a>
+</nav>
+
+<header class="hero" id="start">
+  <div class="hero-content">
+
+    <div class="logo">[▷]</div>
+
+    <h1 id="name">TWOJE IMIĘ I NAZWISKO</h1>
+
+    <p>
+      Foto i wideo dla marek.
+      Tworzę filmy produktowe, rolki oraz fotografie,
+      które pokazują produkty, emocje i detale.
+    </p>
+
+    <div class="tags">
+      <span>Wideo produktowe</span>
+      <span>Motoryzacja</span>
+      <span>Sport</span>
+      <span>Portrety</span>
+    </div>
+
+    <a class="btn" href="#foto">Zobacz fotografie ↓</a>
+    <a class="btn secondary" href="#led">
+      Realizacje LED ↗
+    </a>
+
+  </div>
+
+  <div class="socials">
+    <a id="instagram" href="#" title="Instagram">◎</a>
+    <a id="youtube" href="#" title="YouTube">▶</a>
+    <a id="mail" href="#" title="E-mail">✉</a>
+  </div>
+</header>
+
+<section id="foto">
+
+  <div class="eyebrow">01 / Fotografia</div>
+  <h2>Wybrane kadry.</h2>
+
+  <p class="section-desc">
+    Motoryzacja, sport i portrety.
+    Różne historie, jeden cel — uchwycić
+    wyjątkowy moment, światło i charakter.
+  </p>
+
+  <div class="gallery" id="gallery"></div>
+
+</section>
+
+<section id="led" class="led-section">
+
+  <div class="led-intro">
+    <div class="eyebrow">02 / Wideo produktowe</div>
+
+    <h2>Produkty w najlepszym świetle.</h2>
+
+    <p>
+      Krótkie filmy produktowe i rolki dla marek,
+      w tym branży oświetleniowej LED.
+      Skupiam się na detalach, dynamice,
+      świetle i czytelnej prezentacji produktu.
+    </p>
+  </div>
+
+  <p class="section-desc">
+    Poniżej trzy wybrane realizacje.
+    Kliknij rolkę, aby obejrzeć cały materiał.
+  </p>
+
+  <div class="reels" id="reels"></div>
+
+  <p style="color:#9896a2;font-size:12px;margin-top:22px">
+    Portfolio celowo pokazuje tylko najlepsze
+    realizacje, zamiast wszystkich 20 podobnych rolek.
+  </p>
+
+  <a class="btn secondary" href="#foto">
+    Zobacz również fotografie ↗
+  </a>
+
+</section>
+
+<section class="contact" id="kontakt">
+  <div class="eyebrow">03 / Współpraca</div>
+  <h2>Stwórzmy coś razem.</h2>
+  <p>
+    Potrzebujesz rolek produktowych,
+    relacji z targów lub profesjonalnych zdjęć?
+    Chętnie porozmawiam o Twoim projekcie.
+  </p>
+  <button class="btn" id="contactButton">
+    Napisz do mnie ↗
+  </button>
+</section>
+
+<footer>
+  © <span id="year"></span> Portfolio foto i wideo
+</footer>
+
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <div class="modal-top">
+      <strong id="modalTitle">Podgląd</strong>
+      <button id="closeModal" aria-label="Zamknij">×</button>
+    </div>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+/*
+  ============================================
+  TUTAJ WPISUJESZ SWOJE DANE I PRACE
+  ============================================
+
+  Zdjęcia:
+  Wpisz ścieżkę do pliku JPG/PNG lub adres URL.
+
+  Filmy:
+  Wklej link do YouTube lub YouTube Shorts.
+  Nie musisz wpisywać kodów embed ręcznie.
+*/
+
+const CONFIG = {
+  name: "TWOJE IMIĘ I NAZWISKO",
+  email: "",
+  instagram: "",
+  youtube: "",
+
+  photos: [
+    {
+      title: "Motoryzacja — 01",
+      category: "moto",
+      src: ""
+    },
+    {
+      title: "Motoryzacja — 02",
+      category: "moto",
+      src: ""
+    },
+    {
+      title: "Sport — 01",
+      category: "sport",
+      src: ""
+    },
+    {
+      title: "Sport — 02",
+      category: "sport",
+      src: ""
+    },
+    {
+      title: "Portret — 01",
+      category: "portret",
+      src: ""
+    },
+    {
+      title: "Portret — 02",
+      category: "portret",
+      src: ""
+    }
+  ],
+
+  reels: [
+    {
+      title: "Rolka produktowa 01",
+      description: "Światło i detal",
+      youtubeUrl: ""
+    },
+    {
+      title: "Rolka produktowa 02",
+      description: "Produkt w ruchu",
+      youtubeUrl: ""
+    },
+    {
+      title: "Rolka produktowa 03",
+      description: "Prezentacja produktu",
+      youtubeUrl: ""
+    }
+  ]
+};
+
+/* KONIEC CZĘŚCI DO EDYCJI */
+
+document.getElementById("name").textContent = CONFIG.name;
+document.getElementById("year").textContent =
+  new Date().getFullYear();
+
+function setLink(id, url) {
+  const link = document.getElementById(id);
+
+  if (url) {
+    link.href = url;
+    if (id !== "mail") {
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+    }
+  } else {
+    link.onclick = function(event) {
+      event.preventDefault();
+      alert("Uzupełnij ten link w sekcji CONFIG.");
+    };
+  }
+}
+
+setLink("instagram", CONFIG.instagram);
+setLink("youtube", CONFIG.youtube);
+setLink(
+  "mail",
+  CONFIG.email ? "mailto:" + CONFIG.email : ""
+);
+
+document.getElementById("contactButton").onclick =
+  function() {
+    if (CONFIG.email) {
+      window.location.href = "mailto:" + CONFIG.email;
+    } else {
+      alert("Wpisz swój e-mail w sekcji CONFIG.");
+    }
+  };
+
+/* GALERIA ZDJĘĆ */
+
+const gallery = document.getElementById("gallery");
+
+CONFIG.photos.forEach((photo) => {
+  const card = document.createElement("button");
+  card.className = "photo";
+  card.type = "button";
+
+  const visual = document.createElement("div");
+  visual.className = "photo-visual " + photo.category;
+
+  if (photo.src) {
+    const img = document.createElement("img");
+    img.src = photo.src;
+    img.alt = photo.title;
+    img.onerror = function() {
+      visual.classList.remove("has-image");
+      img.remove();
+      visual.textContent = "BRAK ZDJĘCIA";
+    };
+    visual.appendChild(img);
+    visual.classList.add("has-image");
+  } else {
+    const label = document.createElement("span");
+    label.className = "placeholder-label";
+    label.textContent = photo.category;
+    visual.appendChild(label);
+  }
+
+  const info = document.createElement("div");
+  info.className = "photo-info";
+
+  const name = document.createElement("strong");
+  name.textContent = photo.title;
+
+  const hint = document.createElement("small");
+  hint.textContent = "Zobacz zdjęcie ↗";
+
+  info.append(name, hint);
+  card.append(visual, info);
+
+  card.onclick = () => openPhoto(photo);
+  gallery.appendChild(card);
+});
+
+/* ODCZYT LINKÓW YOUTUBE */
+
+function getYoutubeId(url) {
+  if (!url) return "";
+
+  try {
+    const u = new URL(url);
+
+    if (u.hostname === "youtu.be" ||
+        u.hostname === "www.youtu.be") {
+      return u.pathname.split("/")[1];
+    }
+
+    if (u.hostname.endsWith("youtube.com")) {
+      if (u.pathname.startsWith("/shorts/")) {
+        return u.pathname.split("/")[2];
+      }
+
+      if (u.pathname.startsWith("/embed/")) {
+        return u.pathname.split("/")[2];
+      }
+
+      return u.searchParams.get("v") || "";
+    }
+  } catch (e) {
+    return "";
+  }
+
+  return "";
+}
+
+/* KARTY ROLEK */
+
+const reels = document.getElementById("reels");
+
+CONFIG.reels.forEach((reel) => {
+  const card = document.createElement("button");
+  card.type = "button";
+  card.className = "reel";
+
+  const visual = document.createElement("div");
+  visual.className = "reel-visual";
+
+  const play = document.createElement("span");
+  play.className = "play";
+  play.textContent = "▶";
+  visual.appendChild(play);
+
+  const info = document.createElement("div");
+  info.className = "reel-info";
+
+  const title = document.createElement("strong");
+  title.textContent = reel.title;
+
+  const desc = document.createElement("small");
+  desc.textContent = reel.description + " · Obejrzyj ↗";
+
+  info.append(title, desc);
+  card.append(visual, info);
+
+  card.onclick = () => openVideo(reel);
+  reels.appendChild(card);
+});
+
+/* PODGLĄD ZDJĘĆ I FILMÓW */
+
+const modal = document.getElementById("modal");
+const modalTitle = document.getElementById("modalTitle");
+const modalContent = document.getElementById("modalContent");
+
+function showModal(title) {
+  modalTitle.textContent = title;
+  modalContent.replaceChildren();
+  modal.classList.add("open");
+}
+
+function showMessage(text) {
+  const p = document.createElement("p");
+  p.textContent = text;
+  modalContent.appendChild(p);
+}
+
+function openPhoto(photo) {
+  showModal(photo.title);
+
+  if (!photo.src) {
+    showMessage(
+      "Tutaj pojawi się Twoja fotografia. " +
+      "Wpisz ścieżkę do zdjęcia w sekcji CONFIG."
+    );
+    return;
+  }
+
+  const img = document.createElement("img");
+  img.src = photo.src;
+  img.alt = photo.title;
+  modalContent.appendChild(img);
+}
+
+function openVideo(reel) {
+  showModal(reel.title);
+  const videoId = getYoutubeId(reel.youtubeUrl);
+
+  if (!videoId) {
+    showMessage(
+      "Tutaj pojawi się Twoja rolka. " +
+      "Dodaj link YouTube Shorts w sekcji CONFIG."
+    );
+    return;
+  }
+
+  const iframe = document.createElement("iframe");
+  iframe.src =
+    "https://www.youtube-nocookie.com/embed/" +
+    encodeURIComponent(videoId);
+
+  iframe.title = reel.title;
+  iframe.allow =
+    "accelerometer; autoplay; clipboard-write; " +
+    "encrypted-media; gyroscope; picture-in-picture";
+  iframe.allowFullscreen = true;
+
+  modalContent.appendChild(iframe);
+}
+
+function closeModal() {
+  modal.classList.remove("open");
+  modalContent.replaceChildren();
+}
+
+document.getElementById("closeModal").onclick =
+  closeModal;
+
+modal.addEventListener("click", function(event) {
+  if (event.target === modal) closeModal();
+});
+
+document.addEventListener("keydown", function(event) {
+  if (event.key === "Escape") closeModal();
+});
+
+/* OBSŁUGA BEZPOŚREDNIEGO LINKU #led */
+
+window.addEventListener("load", function() {
+  if (window.location.hash) {
+    const id = window.location.hash.substring(1);
+    const target = document.getElementById(id);
+
+    if (target) {
+      setTimeout(() => {
+        target.scrollIntoView();
+      }, 100);
+    }
+  }
+});
+</script>
+
+</body>
+</html>
