@@ -53,7 +53,7 @@
       overflow: hidden;
     }
 
-    h1, h2, .logo {
+    h1, h2 {
       font-family: 'Outfit', sans-serif;
     }
 
@@ -70,7 +70,6 @@
       pointer-events: none;
     }
 
-    /* NAWIGACJA SZKLANA */
     .nav-wrapper {
       position: sticky;
       top: 18px;
@@ -123,7 +122,6 @@
       box-shadow: 0 0 20px var(--accent-glow);
     }
 
-    /* KARTA HERO */
     .hero {
       position: relative;
       max-width: 680px;
@@ -176,22 +174,40 @@
       box-shadow: 0 0 10px #4ade80;
     }
 
-    .logo {
-      display: grid;
-      place-items: center;
-      width: 88px;
-      height: 88px;
+    /* KONTENER LOGO: PASKA VISUALS */
+    .logo-badge {
+      width: 104px;
+      height: 104px;
       margin: 0 auto 22px;
-      background: linear-gradient(145deg, #ffffff, #cfcedb);
-      color: #0b0c12;
-      border-radius: 50%;
-      font-size: 30px;
-      font-weight: 700;
-      letter-spacing: -1.5px;
-      border: 3px solid rgba(255, 255, 255, 0.4);
+      border-radius: 24px;
+      overflow: hidden;
+      background: #0f1118;
+      border: 1px solid rgba(255, 255, 255, 0.18);
       box-shadow: 
-        0 0 0 6px rgba(255, 255, 255, 0.04),
-        0 16px 40px rgba(143, 155, 255, 0.35);
+        inset 0 1px 0 rgba(255, 255, 255, 0.25),
+        0 0 0 6px rgba(255, 255, 255, 0.03),
+        0 18px 45px rgba(0, 0, 0, 0.65),
+        0 0 35px rgba(143, 155, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+    }
+
+    .logo-badge:hover {
+      transform: scale(1.04) translateY(-2px);
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.35),
+        0 0 0 8px rgba(143, 155, 255, 0.1),
+        0 22px 55px rgba(0, 0, 0, 0.75),
+        0 0 45px rgba(143, 155, 255, 0.35);
+    }
+
+    .logo-badge img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     h1 {
@@ -282,6 +298,7 @@
       padding: 18px 20px;
       display: flex;
       justify-content: center;
+      align-items: center;
       gap: 14px;
     }
 
@@ -292,8 +309,10 @@
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid var(--glass-border);
       color: var(--muted);
-      display: grid;
-      place-items: center;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
       transition: all 0.25s ease;
     }
 
@@ -308,6 +327,7 @@
     .socials svg {
       width: 20px;
       height: 20px;
+      display: block;
       fill: none;
       stroke: currentColor;
       stroke-width: 1.8;
@@ -317,7 +337,6 @@
 
     .socials svg .f { fill: currentColor; stroke: none; }
 
-    /* SEKCJE */
     section {
       max-width: 1120px;
       margin: 0 auto 110px;
@@ -359,7 +378,6 @@
       margin: 0;
     }
 
-    /* FILTRY SZKLANE */
     .filter-tabs {
       display: flex;
       gap: 6px;
@@ -390,7 +408,6 @@
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
     }
 
-    /* KARTY ZDJĘĆ */
     .gallery {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -498,7 +515,6 @@
       transform: translateX(2px);
     }
 
-    /* SEKCJA WIDEO / LED SZKŁO */
     .led-intro {
       position: relative;
       padding: 40px 38px;
@@ -591,25 +607,29 @@
       background: linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, transparent 40%, rgba(6,7,10,0.88) 100%);
     }
 
+    /* WYŚRODKOWANIE IKONY PLAY NA ROLKACH */
     .play {
       width: 64px;
       height: 64px;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.92);
       color: #0b0c12;
-      display: grid;
-      place-items: center;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       position: relative;
       z-index: 2;
+      padding: 0;
       box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7);
       transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), background 0.2s;
     }
 
     .play svg {
-      width: 24px;
-      height: 24px;
+      width: 22px;
+      height: 22px;
       fill: currentColor;
-      margin-left: 3px;
+      transform: translateX(1.5px); /* Optyczna korekta środka trójkąta play */
+      display: block;
     }
 
     .reel:hover .play {
@@ -621,7 +641,6 @@
     .reel-info strong { display: block; font-size: 15.5px; font-weight: 600; }
     .reel-info small { display: block; color: var(--muted); margin-top: 6px; font-size: 13px; }
 
-    /* KONTAKT */
     .contact {
       max-width: 780px;
       text-align: center;
@@ -652,15 +671,15 @@
       border-top: 1px solid rgba(255, 255, 255, 0.05);
     }
 
-    /* MODAL */
+    /* MODAL I PRECYZYJNE WYŚRODKOWANIE IKON */
     .modal {
       display: none;
       position: fixed;
       inset: 0;
       z-index: 100;
-      background: rgba(4, 5, 8, 0.82);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
+      background: rgba(4, 5, 8, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       justify-content: center;
       align-items: center;
       padding: 20px;
@@ -670,7 +689,7 @@
 
     .modal-box {
       width: min(95vw, 520px);
-      background: linear-gradient(135deg, rgba(28, 31, 46, 0.85) 0%, rgba(14, 16, 25, 0.95) 100%);
+      background: linear-gradient(135deg, rgba(28, 31, 46, 0.88) 0%, rgba(14, 16, 25, 0.96) 100%);
       backdrop-filter: blur(30px);
       -webkit-backdrop-filter: blur(30px);
       border: 1px solid rgba(255, 255, 255, 0.16);
@@ -698,19 +717,38 @@
 
     .modal-top strong { font-size: 15px; font-weight: 600; }
 
-    .modal-top button {
+    /* PRZYCISK ZAMKNIJ MODAL - IDEALNIE WYŚRODKOWANA IKONA */
+    .close-btn {
       background: rgba(255, 255, 255, 0.08);
-      color: white;
+      color: #fff;
       border-radius: 50%;
-      width: 36px;
-      height: 36px;
-      font-size: 20px;
-      display: grid;
-      place-items: center;
-      transition: background 0.2s;
+      width: 38px;
+      height: 38px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      margin: 0;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      transition: all 0.25s ease;
+      cursor: pointer;
     }
 
-    .modal-top button:hover { background: rgba(255, 255, 255, 0.2); }
+    .close-btn:hover {
+      background: rgba(255, 255, 255, 0.22);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: scale(1.06);
+    }
+
+    .close-btn svg {
+      width: 18px;
+      height: 18px;
+      display: block;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
 
     .modal-box iframe {
       display: block;
@@ -730,28 +768,44 @@
       border-radius: 12px;
     }
 
+    /* STRZAŁKI NAWIGACJI POPRZEDNIE / NASTĘPNE ZDJĘCIE - IDEALNY ŚRODEK */
     .nav-btn {
       position: fixed;
       top: 50%;
       transform: translateY(-50%);
-      width: 50px;
-      height: 50px;
+      width: 52px;
+      height: 52px;
       border-radius: 50%;
-      background: rgba(18, 20, 30, 0.75);
-      backdrop-filter: blur(12px);
+      background: rgba(18, 20, 30, 0.82);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       border: 1px solid rgba(255, 255, 255, 0.2);
       color: #fff;
-      font-size: 28px;
-      display: grid;
-      place-items: center;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      margin: 0;
       z-index: 101;
-      transition: all 0.2s;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.55);
+      transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .nav-btn svg {
+      width: 24px;
+      height: 24px;
+      display: block;
+      stroke: currentColor;
+      stroke-width: 2.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
     .nav-btn:hover {
       background: rgba(143, 155, 255, 0.35);
       border-color: var(--accent);
-      transform: translateY(-50%) scale(1.06);
+      transform: translateY(-50%) scale(1.08);
+      box-shadow: 0 16px 40px rgba(143, 155, 255, 0.35);
     }
 
     .reveal {
@@ -765,15 +819,17 @@
     @media (max-width: 760px) {
       .hero { margin: 15px 16px 75px; }
       .hero-content { padding: 42px 20px 36px; }
+      .logo-badge { width: 90px; height: 90px; border-radius: 20px; }
       .gallery { grid-template-columns: repeat(2, 1fr); gap: 12px; }
       .reels { gap: 12px; }
       .reel-info { padding: 14px; }
       .reel-info strong { font-size: 13.5px; }
       .reel-info small { font-size: 11.5px; }
       .play { width: 48px; height: 48px; }
-      .play svg { width: 18px; height: 18px; }
+      .play svg { width: 17px; height: 17px; }
       .led-intro { padding: 26px 22px; }
-      .nav-btn { width: 42px; height: 42px; font-size: 22px; }
+      .nav-btn { width: 44px; height: 44px; }
+      .nav-btn svg { width: 20px; height: 20px; }
     }
 
     @media (max-width: 520px) {
@@ -803,7 +859,10 @@
         Dostępny do nowych projektów
       </div>
 
-      <div class="logo" aria-hidden="true">PP</div>
+      <!-- GRAFIKA LOGO: PASKA VISUALS Z BEZPIECZNYM FALLBACKIEM -->
+      <div class="logo-badge" title="Paska Visuals">
+        <img id="logoImg" src="logo1.jpg" alt="Paska Visuals Logo" loading="eager" onerror="this.onerror=null; this.src='https://placehold.co/200x200/0f1118/ffffff?text=PASKA%0AVISUALS';">
+      </div>
 
       <h1 id="name">Patryk Paska</h1>
 
@@ -825,7 +884,6 @@
       </div>
     </div>
 
-    <!-- PASEK IKON: INSTAGRAM, TELEFON, E-MAIL -->
     <div class="socials">
       <a id="instagram" href="#" title="Instagram" aria-label="Instagram">
         <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle class="f" cx="17.3" cy="6.7" r="1.2"/></svg>
@@ -903,7 +961,9 @@
     <div class="modal-box">
       <div class="modal-top">
         <strong id="modalTitle">Podgląd</strong>
-        <button id="closeModal" type="button" aria-label="Zamknij">×</button>
+        <button id="closeModal" class="close-btn" type="button" aria-label="Zamknij">
+          <svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
       </div>
       <div id="modalContent"></div>
     </div>
@@ -913,8 +973,9 @@
     const CONFIG = {
       name: "Patryk Paska",
       email: "paska.patryk@gmail.com",
-      phone: "+48 507 508 597", // TUTAJ WPISZ SWÓJ NUMER TELEFONU
+      phone: "+48 507 508 597", // Wpisz swój numer
       instagram: "paska_patryk",
+      logo: "logo1.jpg",
 
       photos: [
         {
@@ -977,6 +1038,10 @@
     document.getElementById("name").textContent = CONFIG.name;
     document.getElementById("year").textContent = new Date().getFullYear();
 
+    if (CONFIG.logo) {
+      document.getElementById("logoImg").src = CONFIG.logo;
+    }
+
     function setLink(id, url) {
       const link = document.getElementById(id);
       if (url) {
@@ -1008,7 +1073,6 @@
       }
     };
 
-    /* GALERIA ZDJĘĆ */
     const gallery = document.getElementById("gallery");
 
     CONFIG.photos.forEach((photo) => {
@@ -1095,7 +1159,6 @@
       return "";
     }
 
-    /* ROLKI WIDEO */
     const reels = document.getElementById("reels");
 
     CONFIG.reels.forEach((reel) => {
@@ -1148,7 +1211,6 @@
       reels.appendChild(card);
     });
 
-    /* MODAL */
     const modal = document.getElementById("modal");
     const modalTitle = document.getElementById("modalTitle");
     const modalContent = document.getElementById("modalContent");
@@ -1178,16 +1240,23 @@
       img.alt = photo.title;
       modalContent.appendChild(img);
 
-      [["‹", -1, "left:18px"], ["›", 1, "right:18px"]].forEach(([t, d, pos]) => {
+      // PRECYZYJNE WEKTORY SVG DLA STRZAŁEK NAWIGACYJNYCH (IDEALNY ŚRODEK)
+      const prevIcon = '<svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>';
+      const nextIcon = '<svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>';
+
+      [
+        { icon: prevIcon, dir: -1, pos: "left:18px", label: "Poprzednie zdjęcie" },
+        { icon: nextIcon, dir: 1, pos: "right:18px", label: "Następne zdjęcie" }
+      ].forEach((btnData) => {
         const b = document.createElement("button");
         b.type = "button";
         b.className = "nav-btn";
-        b.textContent = t;
-        b.style.cssText = pos;
-        b.setAttribute("aria-label", d < 0 ? "Poprzednie zdjęcie" : "Następne zdjęcie");
+        b.innerHTML = btnData.icon;
+        b.style.cssText = btnData.pos;
+        b.setAttribute("aria-label", btnData.label);
         b.onclick = (e) => {
           e.stopPropagation();
-          stepPhoto(d);
+          stepPhoto(btnData.dir);
         };
         modalContent.appendChild(b);
       });
@@ -1242,7 +1311,6 @@
       });
     }
 
-    /* TŁO: GŁĘBIA 3D + AMBIENT */
     (function () {
       const canvas = document.getElementById("bg");
       const ctx = canvas.getContext("2d");
