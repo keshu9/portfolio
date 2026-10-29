@@ -1,6 +1,6 @@
 # Portfolio foto i wideo — Patryk Paska
 
-Strona prezentująca moje zdjęcia (motoryzacja, sport, portret) oraz rolki wideo tworzone dla firm, m.in. z branży oświetleniowej LED. Projekt jest statyczną stroną w czystym HTML, CSS i JavaScripcie, hostowaną na Netlify.
+Strona prezentująca moje zdjęcia (motoryzacja, sport, portret) oraz rolki wideo tworzone dla firm. Projekt jest statyczną stroną w czystym HTML, CSS i JavaScripcie, hostowaną na Netlify.
 
 ## Funkcje
 
