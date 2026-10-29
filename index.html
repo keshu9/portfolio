@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Patryk Paska | Foto i wideo dla marek</title>
+  <meta name="description" content="Rolki, zdjęcia produktowe i wideo z targów dla firm, m.in. z branży oświetleniowej LED. Motoryzacja, sport, eventy.">
+  <meta name="theme-color" content="#06070b">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:title" content="Patryk Paska | Foto i wideo dla marek">
+  <meta property="og:description" content="Rolki, zdjęcia produktowe i wideo z targów dla firm, m.in. z branży oświetleniowej LED. Motoryzacja, sport, eventy.">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2306070a'/%3E%3Ctext x='32' y='43' text-anchor='middle' fill='%238f9bff' font-family='sans-serif' font-size='32' font-weight='700'%3EP%3C/text%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <canvas id="bg" aria-hidden="true"></canvas>
+
+  <noscript>
+    <p style="position:relative;z-index:1;padding:24px;text-align:center;color:#f5f4f9;">
+      Ta strona wymaga włączonej obsługi JavaScript, aby wyświetlić galerię i realizacje wideo.
+    </p>
+  </noscript>
+
+  <div class="nav-wrapper">
+    <nav aria-label="Główna nawigacja">
+      <a href="#start">Start</a>
+      <a href="#foto">Fotografia</a>
+      <a href="#led">Wideo / LED</a>
+      <a href="#kontakt" class="nav-cta">Współpraca</a>
+    </nav>
+  </div>
+
+  <header class="hero" id="start">
+    <div class="hero-content">
+      <div class="status-badge">
+        <span class="status-dot"></span>
+        Dostępny do nowych projektów
+      </div>
+      <div class="logo-badge" title="Paska Visuals">
+        <img id="logoImg" src="assets/logo.jpg" alt="Logo Paska Visuals" width="200" height="200" loading="eager" data-fallback="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%230f1118'/%3E%3Ctext x='100' y='92' text-anchor='middle' fill='%23ffffff' font-family='sans-serif' font-size='28' font-weight='700'%3EPASKA%3C/text%3E%3Ctext x='100' y='128' text-anchor='middle' fill='%23ffffff' font-family='sans-serif' font-size='28' font-weight='700'%3EVISUALS%3C/text%3E%3C/svg%3E" onerror="this.onerror=null; this.src=this.dataset.fallback;">
+      </div>
+
+      <h1 id="name">Patryk Paska</h1>
+
+      <p>
+        Foto i wideo dla marek. Tworzę dynamiczne rolki, filmy produktowe
+        oraz fotografie, które wydobywają światło, emocje i detale.
+      </p>
+
+      <div class="tags">
+        <span>Wideo produktowe i LED</span>
+        <span>Motoryzacja</span>
+        <span>Sport i sylwetka</span>
+        <span>Eventy i targi</span>
+      </div>
+
+      <div class="hero-actions">
+        <a class="btn" href="#foto">Zobacz fotografie ↓</a>
+        <a class="btn secondary" href="#led">Realizacje wideo / LED ↗</a>
+      </div>
+    </div>
+
+    <div class="socials">
+      <a id="instagram" href="#" title="Instagram" aria-label="Instagram">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle class="f" cx="17.3" cy="6.7" r="1.2"/></svg>
+      </a>
+      <a id="phone" href="#" title="Zadzwoń" aria-label="Zadzwoń">
+        <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      </a>
+      <a id="mail" href="#" title="E-mail" aria-label="E-mail">
+        <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3.5 7.5l8.5 6 8.5-6"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <section id="foto">
+      <div class="section-header">
+        <div>
+          <span class="eyebrow">01 / Fotografia</span>
+          <h2>Wybrane kadry.</h2>
+          <p class="section-desc">
+            Motoryzacja, sport i portrety. Różne historie, jeden cel — uchwycić
+            wyjątkowy moment, światło i charakter.
+          </p>
+        </div>
+
+        <div class="filter-tabs" role="group" aria-label="Kategorie zdjęć">
+          <button type="button" class="filter-btn active" data-filter="all" aria-pressed="true">Wszystkie</button>
+          <button type="button" class="filter-btn" data-filter="moto" aria-pressed="false">Motoryzacja</button>
+          <button type="button" class="filter-btn" data-filter="sport" aria-pressed="false">Sport</button>
+          <button type="button" class="filter-btn" data-filter="portret" aria-pressed="false">Portret</button>
+        </div>
+      </div>
+
+      <div class="gallery" id="gallery"></div>
+    </section>
+
+    <section id="led" class="led-section">
+      <div class="led-intro">
+        <span class="eyebrow">02 / Wideo produktowe &amp; Social Media</span>
+        <h2>Produkty w najlepszym świetle.</h2>
+        <p>
+          Krótkie formy wideo i rolki dla marek — ze szczególnym doświadczeniem
+          w branży oświetleniowej LED oraz relacjach z targów. Skupiam się na
+          detalach, dynamice montażu i czytelnej prezentacji produktu.
+        </p>
+      </div>
+
+      <div class="section-header" style="margin-bottom: 22px;">
+        <p class="section-desc">
+          Poniżej wybrane realizacje pionowe (9:16). Kliknij wybraną rolkę, aby odtworzyć materiał z dźwiękiem.
+        </p>
+      </div>
+
+      <div class="reels" id="reels"></div>
+    </section>
+
+    <section class="contact" id="kontakt">
+      <span class="eyebrow">03 / Współpraca</span>
+      <h2>Stwórzmy coś razem.</h2>
+      <p>
+        Potrzebujesz rolek produktowych, relacji wideo z targów, sesji motoryzacyjnej
+        lub profesjonalnych zdjęć? Napisz — chętnie omówię Twój projekt.
+      </p>
+      <button class="btn" id="contactButton" type="button">
+        Napisz do mnie ↗
+      </button>
+    </section>
+  </main>
+
+  <footer>
+    © <span id="year"></span> Patryk Paska — Portfolio foto i wideo
+  </footer>
+
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-box">
+      <div class="modal-top">
+        <strong id="modalTitle">Podgląd</strong>
+        <button id="closeModal" class="close-btn" type="button" aria-label="Zamknij">
+          <svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/background.js"></script>
+</body>
+</html>
