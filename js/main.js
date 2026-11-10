@@ -17,6 +17,7 @@
 
   let photoIndex = 0;
   let lastFocused = null;
+  let closeTimer = null;
 
   function createElement(tag, className, text) {
     const node = document.createElement(tag);
@@ -86,9 +87,10 @@
   function renderPhotos() {
     const gallery = document.getElementById("gallery");
 
-    CONFIG.photos.forEach((photo) => {
+    CONFIG.photos.forEach((photo, index) => {
       const card = createElement("button", "photo");
       card.type = "button";
+      card.style.setProperty("--i", index);
       card.dataset.category = photo.category;
 
       const visual = createElement("div", "photo-visual " + photo.category);
@@ -123,9 +125,10 @@
   function renderReels() {
     const container = document.getElementById("reels");
 
-    CONFIG.reels.forEach((reel) => {
+    CONFIG.reels.forEach((reel, index) => {
       const card = createElement("button", "reel");
       card.type = "button";
+      card.style.setProperty("--i", index);
 
       const visual = createElement("div", "reel-visual");
       const id = getYoutubeId(reel.youtubeUrl);
@@ -173,15 +176,21 @@
         });
 
         const filter = button.dataset.filter;
+        let shown = 0;
         document.querySelectorAll(".photo").forEach((card) => {
           const match = filter === "all" || card.dataset.category === filter;
+          const wasHidden = card.classList.contains("hidden");
           card.classList.toggle("hidden", !match);
+          if (match && wasHidden) card.style.setProperty("--i", shown++);
         });
       });
     });
   }
 
   function showModal(title, wide) {
+    clearTimeout(closeTimer);
+    closeTimer = null;
+    modalBox.style.height = "";
     if (!modal.classList.contains("open")) {
       lastFocused = document.activeElement;
     }
@@ -194,30 +203,110 @@
   }
 
   function closeModal() {
+    if (!modal.classList.contains("open")) return;
+
+    // Freeze the box size so it does not collapse while it fades out.
+    modalBox.style.height = modalBox.offsetHeight + "px";
     modal.classList.remove("open");
     document.body.classList.remove("modal-open");
-    modalContent.replaceChildren();
+
+    // Stop video playback immediately, clear the rest once the fade is done.
+    modalContent.querySelectorAll("iframe").forEach((frame) => frame.remove());
+    closeTimer = setTimeout(() => {
+      modalContent.replaceChildren();
+      modalBox.style.height = "";
+      closeTimer = null;
+    }, 160);
+
     if (lastFocused && typeof lastFocused.focus === "function") {
       lastFocused.focus();
     }
     lastFocused = null;
   }
 
-  function stepPhoto(direction) {
+  function stepPhoto(direction, animate) {
     const total = CONFIG.photos.length;
-    openPhoto(CONFIG.photos[(photoIndex + direction + total) % total]);
+    openPhoto(CONFIG.photos[(photoIndex + direction + total) % total], animate);
   }
 
-  function openPhoto(photo) {
+  // Swipe left/right on touch screens: follows the finger with friction,
+  // and a quick flick is enough even over a short distance.
+  function attachSwipe(img) {
+    const DISTANCE = 80;
+    const VELOCITY = 0.11;
+    const FRICTION = 0.6;
+
+    let pointerId = null;
+    let startX = 0;
+    let startY = 0;
+    let startTime = 0;
+    let deltaX = 0;
+    let dragging = false;
+
+    img.addEventListener("pointerdown", (event) => {
+      if (event.pointerType === "mouse" || pointerId !== null) return;
+      pointerId = event.pointerId;
+      startX = event.clientX;
+      startY = event.clientY;
+      startTime = performance.now();
+      deltaX = 0;
+      dragging = false;
+      img.setPointerCapture(pointerId);
+    });
+
+    img.addEventListener("pointermove", (event) => {
+      if (event.pointerId !== pointerId) return;
+      deltaX = event.clientX - startX;
+      const deltaY = event.clientY - startY;
+
+      if (!dragging) {
+        if (Math.abs(deltaX) < 8 || Math.abs(deltaX) < Math.abs(deltaY)) return;
+        dragging = true;
+        img.style.transition = "none";
+      }
+      img.style.transform = "translateX(" + deltaX * FRICTION + "px)";
+    });
+
+    function finish(event, allowCommit) {
+      if (event.pointerId !== pointerId) return;
+      pointerId = null;
+      img.style.transition = "";
+
+      const elapsed = Math.max(performance.now() - startTime, 1);
+      const velocity = Math.abs(deltaX) / elapsed;
+      const commit =
+        allowCommit && dragging && (Math.abs(deltaX) >= DISTANCE || (Math.abs(deltaX) > 30 && velocity > VELOCITY));
+
+      if (commit) {
+        stepPhoto(deltaX < 0 ? 1 : -1, true);
+      } else {
+        img.style.transform = "";
+      }
+      dragging = false;
+    }
+
+    img.addEventListener("pointerup", (event) => finish(event, true));
+    img.addEventListener("pointercancel", (event) => finish(event, false));
+  }
+
+  function openPhoto(photo, animate = true) {
     photoIndex = CONFIG.photos.indexOf(photo);
     showModal(photo.title, true);
 
     const img = document.createElement("img");
-    img.src = photo.src;
     img.alt = photo.title;
+    img.draggable = false;
     img.addEventListener("error", () => {
       img.replaceWith(createElement("p", "modal-error", "Nie udało się wczytać zdjęcia."));
     });
+    if (animate) {
+      img.classList.add("fade");
+      img.addEventListener("load", () => {
+        requestAnimationFrame(() => img.classList.add("ready"));
+      });
+    }
+    img.src = photo.src;
+    attachSwipe(img);
     modalContent.appendChild(img);
 
     [
@@ -231,7 +320,7 @@
       button.setAttribute("aria-label", item.label);
       button.addEventListener("click", (event) => {
         event.stopPropagation();
-        stepPhoto(item.direction);
+        stepPhoto(item.direction, true);
       });
       modalContent.appendChild(button);
     });
@@ -279,8 +368,8 @@
       if (event.key === "Tab") trapFocus(event);
 
       if (modalContent.querySelector("img")) {
-        if (event.key === "ArrowLeft") stepPhoto(-1);
-        if (event.key === "ArrowRight") stepPhoto(1);
+        if (event.key === "ArrowLeft") stepPhoto(-1, false);
+        if (event.key === "ArrowRight") stepPhoto(1, false);
       }
     });
   }
