@@ -1,5 +1,5 @@
 :root {
-  --bg: #06070a;
+  --bg: #030305;
 
   --glass-surface: linear-gradient(135deg, rgba(255, 255, 255, 0.075) 0%, rgba(255, 255, 255, 0.018) 100%);
   --glass-surface-hover: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.035) 100%);
@@ -47,27 +47,45 @@ h1, h2 {
 a { text-decoration: none; color: inherit; }
 button { font: inherit; cursor: pointer; background: none; border: none; color: inherit; }
 
-#bg {
+/* The void: no texture and no objects, only light falling off into black.
+   A faint haze far "behind" the page and edges that sink to pure black make
+   the content read as floating in front of a deep, empty space. */
+body::before,
+body::after {
+  content: "";
   position: fixed;
   inset: 0;
-  width: 100%;
-  height: 100%;
   z-index: -1;
   pointer-events: none;
-  touch-action: none;
-  transform: translateZ(0);
-  will-change: transform;
+}
+
+body::before {
+  background:
+    radial-gradient(ellipse 55% 42% at 50% 46%, rgba(86, 96, 150, 0.17) 0%, rgba(50, 56, 96, 0.08) 45%, transparent 100%),
+    radial-gradient(ellipse 110% 85% at 50% 48%, rgba(24, 27, 44, 0.55) 0%, transparent 75%);
+}
+
+/* Edges fall to pure black, like looking down a shaft. The barely visible noise
+   only breaks up banding in these very dark gradients. */
+body::after {
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.035 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse 85% 75% at 50% 48%, transparent 30%, rgba(0, 0, 0, 0.72) 78%, #000 100%);
 }
 
 .nav-wrapper {
-  position: sticky;
+  position: fixed;
   top: 18px;
+  left: 0;
+  right: 0;
   z-index: 50;
   display: flex;
   justify-content: center;
   padding: 0 16px;
-  margin-bottom: 24px;
+  pointer-events: none;
 }
+
+.nav-wrapper nav { pointer-events: auto; }
 
 nav {
   display: flex;
@@ -111,34 +129,79 @@ nav a.nav-cta:hover {
   box-shadow: 0 0 20px var(--accent-glow);
 }
 
+/* Hero: a dark frame that the cursor lights up like a lamp. */
 .hero {
+  --mx: 62%;
+  --my: 44%;
   position: relative;
-  max-width: 680px;
-  margin: 35px auto 110px;
-  background: var(--glass-surface);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border-radius: 32px;
-  border: 1px solid var(--glass-border);
-  box-shadow:
-    var(--glass-specular),
-    0 35px 90px rgba(0, 0, 0, 0.7);
+  isolation: isolate;
+  min-height: 100vh;
+  min-height: 100svh;
+  margin: 0 0 110px;
+  padding: 110px 0 34px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   overflow: hidden;
-  text-align: center;
 }
 
-.hero::before {
-  content: "";
+/* The frame dissolves into the void at the bottom instead of ending on an edge. */
+.hero-bg {
   position: absolute;
-  inset: 0 0 auto;
-  height: 240px;
-  background: radial-gradient(ellipse at 50% 0%, rgba(143, 155, 255, 0.22), transparent 70%);
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
+}
+
+.hero-photo,
+.hero-light,
+.hero-shade {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-photo,
+.hero-light {
+  background: url("../assets/photos/moto-02.jpg") center / cover no-repeat;
   pointer-events: none;
 }
 
-.hero-content {
-  position: relative;
-  padding: 56px 32px 46px;
+.hero-photo {
+  filter: brightness(0.26) saturate(0.55);
+}
+
+.hero-light {
+  opacity: 0;
+  transition: opacity 1.4s ease-out;
+  -webkit-mask-image: radial-gradient(circle 420px at var(--mx) var(--my), #000 0%, rgba(0, 0, 0, 0.55) 38%, transparent 100%);
+  mask-image: radial-gradient(circle 420px at var(--mx) var(--my), #000 0%, rgba(0, 0, 0, 0.55) 38%, transparent 100%);
+}
+
+.hero.is-lit .hero-light { opacity: 1; }
+
+/* Keeps the nav and the copy readable, and melts the frame into the page. */
+.hero-shade {
+  background: linear-gradient(to bottom, rgba(3, 3, 5, 0.55) 0%, transparent 22%, transparent 42%, rgba(3, 3, 5, 0.85) 80%, var(--bg) 100%);
+}
+
+.hero-content,
+.hero .socials {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.light-hint {
+  display: none;
+  margin-top: 26px;
+  color: var(--muted);
+  font-size: 11.5px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  font-weight: 600;
 }
 
 .status-badge {
@@ -163,53 +226,29 @@ nav a.nav-cta:hover {
   box-shadow: 0 0 10px #4ade80;
 }
 
-.logo-badge {
-  width: 104px;
-  height: 104px;
-  margin: 0 auto 22px;
-  border-radius: 24px;
-  overflow: hidden;
-  background: #0f1118;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.25),
-    0 0 0 6px rgba(255, 255, 255, 0.03),
-    0 18px 45px rgba(0, 0, 0, 0.65),
-    0 0 35px rgba(143, 155, 255, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.35s var(--ease-out), box-shadow 0.35s ease;
-}
-
-.logo-badge img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
 h1 {
-  font-size: clamp(28px, 5vw, 42px);
-  margin: 0 0 14px;
-  letter-spacing: -0.03em;
+  font-size: clamp(54px, 12.5vw, 168px);
+  margin: 0 0 22px -0.04em;
+  letter-spacing: -0.045em;
+  line-height: 0.88;
   font-weight: 700;
+  text-wrap: balance;
+  text-shadow: 0 4px 40px rgba(0, 0, 0, 0.55);
 }
 
 .hero p {
   max-width: 470px;
-  margin: 0 auto;
+  margin: 0;
   line-height: 1.65;
-  font-size: 15.5px;
-  color: #c6c5d4;
+  font-size: 16px;
+  color: #d6d5e2;
 }
 
 .tags {
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
   gap: 8px;
-  margin: 26px 0 32px;
+  margin: 22px 0 28px;
 }
 
 .tags span {
@@ -226,7 +265,6 @@ h1 {
 
 .hero-actions {
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
   gap: 12px;
 }
@@ -255,14 +293,12 @@ h1 {
 }
 
 .socials {
-  background: rgba(9, 10, 15, 0.45);
-  border-top: 1px solid var(--glass-border);
-  padding: 18px 20px;
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
 }
+
+.hero .socials { margin-top: 30px; }
 
 .socials a {
   width: 44px;
@@ -362,20 +398,25 @@ h2 {
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
 }
 
+/* Justified rows: every frame keeps its own proportions (--ar = width / height),
+   frames in one row share a height, and rows differ in height. */
 .gallery {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  --row: 280px;
+  display: flex;
+  flex-wrap: wrap;
   gap: 18px;
 }
 
 .photo {
+  position: relative;
+  flex-grow: var(--ar, 1.5);
+  flex-shrink: 1;
+  flex-basis: calc(var(--ar, 1.5) * var(--row));
+  max-width: calc(var(--ar, 1.5) * 560px);
+  min-width: 0;
   border: 1px solid var(--glass-border);
-  background: var(--glass-surface);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  box-shadow:
-    var(--glass-specular),
-    0 15px 35px rgba(0, 0, 0, 0.4);
+  background: #0b0c12;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.75), 0 8px 22px rgba(0, 0, 0, 0.5);
   padding: 0;
   border-radius: var(--radius-md);
   text-align: left;
@@ -387,7 +428,7 @@ h2 {
 
 .photo-visual {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: var(--ar, 1.5);
   display: grid;
   place-items: center;
   position: relative;
@@ -432,22 +473,31 @@ h2 {
 }
 
 .photo-info {
-  padding: 16px 18px;
+  position: absolute;
+  inset: auto 0 0;
+  padding: 44px 16px 14px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
   gap: 12px;
+  background: linear-gradient(to top, rgba(4, 5, 8, 0.82), transparent);
+  pointer-events: none;
 }
 
 .photo-info strong {
   display: block;
-  font-size: 14.5px;
+  font-size: 13.5px;
   font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .photo-info small {
-  color: var(--muted);
-  font-size: 12.5px;
+  color: #c9c8d6;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  font-variant-numeric: tabular-nums;
   transition: color 0.2s, transform 0.2s;
   white-space: nowrap;
 }
@@ -772,10 +822,27 @@ footer {
 }
 
 @media (max-width: 760px) {
-  .hero { margin: 15px 16px 75px; }
-  .hero-content { padding: 42px 20px 36px; }
-  .logo-badge { width: 90px; height: 90px; border-radius: 20px; }
-  .gallery { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  /* Phone: a vertical frame, name above the car, the rest below it. */
+  .hero { margin-bottom: 75px; padding: 84px 0 22px; }
+  .hero-photo,
+  .hero-light { background-image: url("../assets/photos/moto-04.jpg"); background-position: 47% center; }
+  .hero-photo { filter: brightness(0.3) saturate(0.6); }
+  .hero-shade {
+    background: linear-gradient(to bottom, rgba(3, 3, 5, 0.6) 0%, rgba(3, 3, 5, 0.15) 30%, transparent 48%, rgba(3, 3, 5, 0.82) 72%, var(--bg) 100%);
+  }
+  .hero-content { flex: 1; display: flex; flex-direction: column; align-items: flex-start; }
+  .hero .status-badge { margin-bottom: 14px; }
+  .hero h1 { margin-bottom: auto; }
+  .hero p { font-size: 15px; line-height: 1.55; margin-top: 24px; }
+  .hero .tags { display: none; }
+  .hero-actions { margin-top: 18px; gap: 10px; }
+  .hero-actions .btn { padding: 13px 20px; }
+  .hero .socials { margin-top: 18px; }
+  .hero-light {
+    -webkit-mask-image: radial-gradient(circle 260px at var(--mx) var(--my), #000 0%, rgba(0, 0, 0, 0.55) 38%, transparent 100%);
+    mask-image: radial-gradient(circle 260px at var(--mx) var(--my), #000 0%, rgba(0, 0, 0, 0.55) 38%, transparent 100%);
+  }
+  .gallery { --row: 200px; gap: 12px; }
   .reels { gap: 12px; }
   .reel-info { padding: 14px; }
   .reel-info strong { font-size: 13.5px; }
@@ -788,8 +855,11 @@ footer {
 }
 
 @media (max-width: 520px) {
-  nav a { padding: 7px 11px; font-size: 12px; }
-  .gallery { grid-template-columns: 1fr; }
+  nav a { padding: 7px 10px; font-size: 12px; white-space: nowrap; }
+  .gallery { --row: 138px; }
+  .photo-info { padding: 34px 12px 10px; }
+  .photo-info strong { font-size: 12px; }
+  .photo-info small { display: none; }
   .reels { grid-template-columns: repeat(2, 1fr); }
 }
 
@@ -805,14 +875,19 @@ footer {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .logo-badge:hover {
-    transform: scale(1.04) translateY(-2px);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.35),
-      0 0 0 8px rgba(143, 155, 255, 0.1),
-      0 22px 55px rgba(0, 0, 0, 0.75),
-      0 0 45px rgba(143, 155, 255, 0.35);
+  .light-hint { display: block; }
+
+  /* Frames wait in half-light and are "lit" when pointed at. */
+  .photo-visual img,
+  .reel-visual img {
+    filter: brightness(0.62) saturate(0.75);
+    transition: transform 0.65s var(--ease-out), filter 0.45s ease-out;
   }
+
+  .photo:hover .photo-visual img,
+  .photo:focus-visible .photo-visual img,
+  .reel:hover .reel-visual img,
+  .reel:focus-visible .reel-visual img { filter: none; }
 
   .tags span:hover {
     border-color: var(--glass-border-hover);
@@ -914,7 +989,8 @@ nav a:active,
   .modal-box img { transition: none; }
   .modal-box img.fade { filter: none; }
 
-  .logo-badge:hover,
+  .hero-light { transition: none; }
+
   .tags span:hover,
   .btn:hover,
   .socials a:hover,

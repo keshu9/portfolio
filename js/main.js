@@ -92,9 +92,10 @@
       card.type = "button";
       card.style.setProperty("--i", index);
       card.dataset.category = photo.category;
+      card.style.setProperty("--ar", photo.ratio || 1.5);
+      card.setAttribute("aria-label", "Powiększ: " + photo.title);
 
       const visual = createElement("div", "photo-visual " + photo.category);
-      visual.appendChild(createElement("span", "photo-badge", photo.categoryLabel || photo.category));
 
       if (photo.src) {
         const img = document.createElement("img");
@@ -114,7 +115,8 @@
       }
 
       const info = createElement("div", "photo-info");
-      info.append(createElement("strong", "", photo.title), createElement("small", "", "Powiększ ↗"));
+      const frame = String(index + 1).padStart(2, "0") + " / " + String(CONFIG.photos.length).padStart(2, "0");
+      info.append(createElement("strong", "", photo.title), createElement("small", "", frame));
 
       card.append(visual, info);
       card.addEventListener("click", () => openPhoto(photo));
@@ -395,7 +397,108 @@
     });
   }
 
+  // Hero lamp: the frame stays dark and a soft light follows the cursor.
+  // On touch screens the light drifts on its own; it only runs while the hero is visible.
+  function initHeroLight() {
+    const hero = document.querySelector(".hero");
+    const layer = hero.querySelector(".hero-light");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+    // Switch the lamp on once the photo is actually there.
+    const probe = new Image();
+    probe.onload = () => hero.classList.add("is-lit");
+    probe.src = getComputedStyle(layer).backgroundImage.replace(/^url\(["']?|["']?\)$/g, "");
+
+    let rect = hero.getBoundingClientRect();
+    let x = rect.width * 0.62;
+    let y = rect.height * 0.44;
+    let targetX = x;
+    let targetY = y;
+    let pointerActive = false;
+    let visible = true;
+    let frame = null;
+
+    function apply() {
+      hero.style.setProperty("--mx", x.toFixed(1) + "px");
+      hero.style.setProperty("--my", y.toFixed(1) + "px");
+    }
+
+    function tick(time) {
+      frame = null;
+      if (!pointerActive) {
+        targetX = rect.width * (0.5 + 0.3 * Math.sin(time * 0.00032));
+        targetY = rect.height * (0.42 + 0.14 * Math.cos(time * 0.00047));
+      }
+      x += (targetX - x) * 0.09;
+      y += (targetY - y) * 0.09;
+      apply();
+
+      const settled = Math.abs(targetX - x) < 0.3 && Math.abs(targetY - y) < 0.3;
+      if (visible && (!pointerActive || !settled)) schedule();
+    }
+
+    function schedule() {
+      if (frame === null && !reduceMotion) frame = requestAnimationFrame(tick);
+    }
+
+    if (finePointer) {
+      hero.addEventListener("pointermove", (event) => {
+        rect = hero.getBoundingClientRect();
+        targetX = event.clientX - rect.left;
+        targetY = event.clientY - rect.top;
+        pointerActive = true;
+        if (reduceMotion) {
+          x = targetX;
+          y = targetY;
+          apply();
+        } else {
+          schedule();
+        }
+      });
+      hero.addEventListener("pointerleave", () => {
+        pointerActive = false;
+        schedule();
+      });
+    }
+
+    // Touch: the lamp goes to the finger, then drifts on again.
+    if (!finePointer && !reduceMotion) {
+      let release = null;
+      const follow = (event) => {
+        const touch = event.touches[0];
+        if (!touch) return;
+        rect = hero.getBoundingClientRect();
+        targetX = touch.clientX - rect.left;
+        targetY = touch.clientY - rect.top;
+        pointerActive = true;
+        clearTimeout(release);
+        release = setTimeout(() => {
+          pointerActive = false;
+          schedule();
+        }, 1800);
+        schedule();
+      };
+      hero.addEventListener("touchstart", follow, { passive: true });
+      hero.addEventListener("touchmove", follow, { passive: true });
+    }
+
+    window.addEventListener("resize", () => {
+      rect = hero.getBoundingClientRect();
+    });
+
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver((entries) => {
+        visible = entries[0].isIntersecting;
+        if (visible) schedule();
+      }).observe(hero);
+    }
+
+    schedule();
+  }
+
   initProfile();
+  initHeroLight();
   renderPhotos();
   renderReels();
   initFilters();

@@ -27,8 +27,7 @@ Strona prezentująca moje zdjęcia (motoryzacja, sport, portret) oraz rolki wide
 │   └── style.css         # style
 ├── js/
 │   ├── config.js         # dane: kontakt, lista zdjęć i rolek
-│   ├── main.js           # galeria, rolki, modal, filtry
-│   └── background.js     # animowane tło na canvasie
+│   └── main.js           # galeria, rolki, modal, filtry, lampa w hero
 └── assets/
     ├── logo.jpg          # logo (własny plik)
     ├── photos/           # zdjęcia w wersji webowej (ok. 2500 px)

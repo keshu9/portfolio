@@ -4,42 +4,63 @@ const CONFIG = {
   phone: "+48 507 508 597",
   instagram: "paska_patryk",
 
+  // ratio = szerokość / wysokość zdjęcia; galeria układa kadry w ich naturalnych proporcjach.
   photos: [
     {
       title: "Motoryzacja — 01",
       category: "moto",
       categoryLabel: "Motoryzacja",
-      src: "assets/photos/moto-01.jpg"
+      src: "assets/photos/moto-01.jpg",
+      ratio: 1.65
     },
     {
-      title: "Motoryzacja — 02",
+      title: "Motoryzacja — 04",
       category: "moto",
       categoryLabel: "Motoryzacja",
-      src: "assets/photos/moto-02.jpg"
+      src: "assets/photos/moto-04.jpg",
+      ratio: 0.717
     },
     {
       title: "Sport — 01",
       category: "sport",
       categoryLabel: "Sport",
-      src: "assets/photos/sport-01.jpg"
-    },
-    {
-      title: "Sport — 02",
-      category: "sport",
-      categoryLabel: "Sport",
-      src: "assets/photos/sport-02.jpg"
+      src: "assets/photos/sport-01.jpg",
+      ratio: 1.5
     },
     {
       title: "Portret — 01",
       category: "portret",
       categoryLabel: "Portret",
-      src: "assets/photos/portret-01.jpg"
+      src: "assets/photos/portret-01.jpg",
+      ratio: 0.667
+    },
+    {
+      title: "Motoryzacja — 02",
+      category: "moto",
+      categoryLabel: "Motoryzacja",
+      src: "assets/photos/moto-02.jpg",
+      ratio: 1.5
+    },
+    {
+      title: "Sport — 02",
+      category: "sport",
+      categoryLabel: "Sport",
+      src: "assets/photos/sport-02.jpg",
+      ratio: 1.5
     },
     {
       title: "Portret — 02",
       category: "portret",
       categoryLabel: "Portret",
-      src: "assets/photos/portret-02.jpg"
+      src: "assets/photos/portret-02.jpg",
+      ratio: 0.667
+    },
+    {
+      title: "Motoryzacja — 03",
+      category: "moto",
+      categoryLabel: "Motoryzacja",
+      src: "assets/photos/moto-03.jpg",
+      ratio: 1.5
     }
   ],
 
