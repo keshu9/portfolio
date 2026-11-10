@@ -21,8 +21,6 @@
 </head>
 
 <body>
-  <canvas id="bg" aria-hidden="true"></canvas>
-
   <noscript>
     <p style="position:relative;z-index:1;padding:24px;text-align:center;color:#f5f4f9;">
       Ta strona wymaga włączonej obsługi JavaScript, aby wyświetlić galerię i realizacje wideo.
@@ -39,13 +37,16 @@
   </div>
 
   <header class="hero" id="start">
+    <div class="hero-bg" aria-hidden="true">
+      <div class="hero-photo"></div>
+      <div class="hero-light"></div>
+      <div class="hero-shade"></div>
+    </div>
+
     <div class="hero-content">
       <div class="status-badge">
         <span class="status-dot"></span>
         Dostępny do nowych projektów
-      </div>
-      <div class="logo-badge" title="Paska Visuals">
-        <img id="logoImg" src="assets/logo.jpg" alt="Logo Paska Visuals" width="200" height="200" loading="eager" data-fallback="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%230f1118'/%3E%3Ctext x='100' y='92' text-anchor='middle' fill='%23ffffff' font-family='sans-serif' font-size='28' font-weight='700'%3EPASKA%3C/text%3E%3Ctext x='100' y='128' text-anchor='middle' fill='%23ffffff' font-family='sans-serif' font-size='28' font-weight='700'%3EVISUALS%3C/text%3E%3C/svg%3E" onerror="this.onerror=null; this.src=this.dataset.fallback;">
       </div>
 
       <h1 id="name">Patryk Paska</h1>
@@ -66,6 +67,8 @@
         <a class="btn" href="#foto">Zobacz fotografie ↓</a>
         <a class="btn secondary" href="#led">Realizacje wideo / LED ↗</a>
       </div>
+
+      <span class="light-hint">Porusz kursorem — oświetl kadr</span>
     </div>
 
     <div class="socials">
@@ -155,6 +158,5 @@
 
   <script src="js/config.js"></script>
   <script src="js/main.js"></script>
-  <script src="js/background.js"></script>
 </body>
 </html>
